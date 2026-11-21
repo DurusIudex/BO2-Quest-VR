@@ -1,4 +1,12 @@
-First public experimental Quest release, with a separate installer/updating launcher.
+Version 0.2.0 adds installation of both Zombies and Multiplayer game data from the owner's Steam installation over local Wi-Fi.
+
+- New **Install Zombies + Multiplayer files from PC** screen, temporary pairing code and certificate-pinned HTTPS transfer.
+- Per-file SHA-256 verification, skip for already matching files, partial-download resume, progress and cancellation. Existing saves and settings are excluded from transfer.
+- Includes `BO2-PC-Transfer.zip`: extract on the PC, run `Start-BO2-Transfer.cmd`, and enter its code in the Quest installer. Requires Python 3 and Git for Windows. The current owned installation contains approximately 6.51 GB in 167 allowlisted data/localization files.
+- Both game modes must already be installed on the PC. No game assets are publicly hosted, no missing DLC is downloaded, and unlock/progression state is not changed. After setup the game runs standalone.
+- Desktop integration tests pass for pairing, TLS pin rejection, incorrect-code rejection, resume, checksum failure, existing-file preservation and exclusion of saves/logs. The updated APK was installed and its main activity launched on Quest; a full in-app 6.5 GB transfer has not yet been verified on the headset.
+
+Existing experimental VR features:
 
 - Same-frame stereo rendering, head tracking, controller-directed aiming, rigid tracked weapon model, aim stabilization and controller bindings.
 - Punch gestures, stationary menu handling and experimental room-code relay integration.

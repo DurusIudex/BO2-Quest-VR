@@ -8,9 +8,13 @@ Experimental standalone Quest VR integration for T6Requiem, with a small install
 
 [GitHub releases and direct game APK](https://github.com/DurusIudex/BO2-Quest-VR/releases/latest)
 
-Sideload **BO2-Quest-Installer.apk** once, then open **BO2 Quest Launcher** from Unknown Sources. Select Install game and confirm any Quest installation prompts. The launcher downloads the VR app from this repository's releases. In the game's launcher, select the folder containing your own compatible BO2 data.
+Sideload **BO2-Quest-Installer.apk** once, then open **BO2 Quest Launcher** from Unknown Sources. Use **Install Zombies + Multiplayer files from PC** to transfer your own Steam game data, and **Install / update VR app** for the app download from GitHub. Confirm any Quest installation/file-access prompts. In the game's launcher, select the BO2 folder.
+
+[Download the PC transfer helper](https://github.com/DurusIudex/BO2-Quest-VR/releases/latest/download/BO2-PC-Transfer.zip). Extract it and run `Start-BO2-Transfer.cmd` on the PC with both game modes installed. It shows a temporary pairing code. The helper requires Python 3 and Git for Windows. See [PC-TRANSFER.md](PC-TRANSFER.md) for setup and resume instructions. Your PC is needed only for the one-time data transfer, not for gameplay.
 
 The launcher automatically checks for updates when opened and downloads newer game builds when automatic updates are enabled. It offers updates for itself too. Android may require an installation confirmation. It preserves existing game files and settings, and can launch an already installed game offline. Updates are verified by package name, version, SHA-256 and signing certificate. No GitHub login is required on the Quest.
+
+Game data stays on your devices: it transfers over paired, certificate-pinned HTTPS on your local network. The installer verifies files, skips matching installed files and resumes partial downloads. Game assets, pairing codes and TLS private keys are never included in public releases.
 
 ## Current state
 

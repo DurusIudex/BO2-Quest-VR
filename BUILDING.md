@@ -13,9 +13,9 @@ The maintainer's private signing key is intentionally excluded. Existing users r
 Maintainer release sequence:
 
 1. Increase `version` and `gameVersionCode` in `release.json`; increase `installerVersionCode` when installer code changes. Do not replace the assets of an already published version.
-2. Run `tools/test-quest-input.ps1`. Compile/run `src/installer/test/ReleasePolicyTest.java` alongside `ReleasePolicy.java`; relay tests run with `python -m unittest discover -s src/relay`.
+2. Run `tools/test-quest-input.ps1`. Compile/run `src/installer/test/ReleasePolicyTest.java` alongside `ReleasePolicy.java`; run `python tools/test-game-transfer.py` for the real Java-client/Python-server transfer integration test. Relay tests run with `python -m unittest discover -s src/relay`.
 3. Run `tools/build-quest-apk.ps1`, `tools/build-installer.ps1`, then `python tools/make-release.py`. Inspect the APKs and test on a headset.
-4. Commit and push the reviewed source. With Git Credential Manager signed in, run `python tools/publish-github-release.py`. It uploads all four assets to a draft and publishes only after successful uploads.
+4. Commit and push the reviewed source. With Git Credential Manager signed in, run `python tools/publish-github-release.py`. It uploads the two APKs, PC helper ZIP, update manifest and checksums to a draft and publishes only after successful uploads.
 5. Copy the installer APK to the server's existing download location using an atomic rename. The launcher itself obtains app updates from `releases/latest/download/update.json` on GitHub.
 
 The update feed pins exact tagged asset URLs, sizes and SHA-256 hashes. The installer additionally verifies the APK's package, version and embedded signing certificate, rejects downgrades, bounds downloads, requires HTTPS, and restricts redirect hosts. It checks when opened, not as an always-running background daemon. Quest/Android can require user confirmation. Failed downloads leave the current app installed and available offline. No GitHub credential is embedded in either APK.

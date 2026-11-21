@@ -1,10 +1,13 @@
 """Stage signed APKs and a hash-pinned GitHub update feed; no game data."""
-import hashlib,json,shutil,subprocess
+import hashlib,json,shutil,subprocess,zipfile
 from pathlib import Path
 root=Path(__file__).resolve().parents[1]
 cfg=json.loads((root/'release.json').read_text())
 out=root/'build/release';out.mkdir(parents=True,exist_ok=True)
 feed={'schema':1}
+with zipfile.ZipFile(out/'BO2-PC-Transfer.zip','w',zipfile.ZIP_DEFLATED) as archive:
+    for name in ['Start-BO2-Transfer.cmd','tools/serve-game-files.py','PC-TRANSFER.md']:
+        archive.write(root/name,name)
 for key,source,name,package,version in [
     ('game','BO2QuestVR-dev.apk','BO2-Quest-VR.apk',cfg['gamePackage'],cfg['gameVersionCode']),
     ('launcher','BO2-Quest-Installer.apk','BO2-Quest-Installer.apk',cfg['installerPackage'],cfg['installerVersionCode'])]:

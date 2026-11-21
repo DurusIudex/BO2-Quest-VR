@@ -21,7 +21,7 @@ remote=request(base+'/commits/main')['sha'];assert head==remote,'Push the curren
 notes=(root/'RELEASE_NOTES.md').read_text(encoding='utf-8')
 release=request(base+'/releases','POST',{'tag_name':'v'+cfg['version'],'target_commitish':head,'name':'BO2 Quest VR '+cfg['version'],'body':notes,'draft':True,'prerelease':False})
 print('Created draft release',release['id'])
-for name in ['BO2-Quest-VR.apk','BO2-Quest-Installer.apk','update.json','SHA256SUMS.txt']:
+for name in ['BO2-Quest-VR.apk','BO2-Quest-Installer.apk','BO2-PC-Transfer.zip','update.json','SHA256SUMS.txt']:
     path=root/'build/release'/name
     asset=request(release['upload_url'].split('{')[0]+'?name='+urllib.parse.quote(name),'POST',path.read_bytes(),'application/octet-stream')
     assert asset['size']==path.stat().st_size

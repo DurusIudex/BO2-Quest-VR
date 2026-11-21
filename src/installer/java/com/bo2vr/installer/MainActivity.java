@@ -38,18 +38,19 @@ public final class MainActivity extends Activity {
         versions=text(content,"",15,Color.LTGRAY);
         status=text(content,"Checking GitHub releases…",18,Color.WHITE);
         progress=new ProgressBar(this,null,android.R.attr.progressBarStyleHorizontal);progress.setMax(100);content.addView(progress,new LinearLayout.LayoutParams(-1,dp(10)));
-        install=button(content,"Install game",()->download(false));install.setEnabled(false);
+        button(content,"Install Zombies + Multiplayer files from PC",()->startActivity(new Intent(this,GameDataActivity.class)));
+        install=button(content,"Install / update VR app",()->download(false));install.setEnabled(false);
         play=button(content,"Launch game",this::launch);
         check=button(content,"Check for updates",()->checkRelease(false));
         self=button(content,"Update launcher",()->download(true));self.setVisibility(View.GONE);
         Switch automatic=new Switch(this);automatic.setText("Download game updates when launcher opens");automatic.setTextColor(Color.WHITE);automatic.setPadding(0,dp(12),0,dp(12));automatic.setChecked(prefs().getBoolean("automatic",true));content.addView(automatic);
         automatic.setOnCheckedChangeListener((v,on)->prefs().edit().putBoolean("automatic",on).apply());
-        text(content,"Requires your own BO2 game files. This download installs the VR app, not the game data. In the game launcher, select your BO2 folder. Existing game files and controller settings are kept.",15,Color.LTGRAY);
+        text(content,"Install both game modes from your owned Steam copy using the PC transfer button above. The VR app and its updates download from GitHub. After setup, gameplay is standalone. Existing game files and controller settings are kept.",15,Color.LTGRAY);
         text(content,"Experimental build • Quest may ask you to allow installations and confirm an update.",14,Color.GRAY);
         refreshInstalled();
         if(!prefs().contains("pending"))checkRelease(true);
     }
-    @Override public void onNewIntent(Intent intent){super.onNewIntent(intent);setIntent(intent);}
+    @Override public void onNewIntent(Intent intent){super.onNewIntent(intent);setIntent(intent);if(intent.getBooleanExtra("data_ready",false)&&!busy){if(installed(ReleasePolicy.GAME)>0)launch();else if(feed!=null)download(false);else checkRelease(true);}}
     @Override public void onResume(){
         super.onResume();refreshInstalled();
         String result=prefs().getString("status",null);if(result!=null){status.setText(result);prefs().edit().remove("status").apply();}
@@ -92,10 +93,10 @@ public final class MainActivity extends Activity {
             try(InputStream in=c.getInputStream()){byte[] b=new byte[4096];int n;while((n=in.read(b))!=-1){if(out.size()+n>65536)throw new IOException("Update feed too large");out.write(b,0,n);}}finally{c.disconnect();}
             feed=new JSONObject(out.toString("UTF-8"));JSONObject game=artifact(false),launcher=artifact(true);
             long current=installed(ReleasePolicy.GAME);boolean newer=ReleasePolicy.newer(game.getLong("versionCode"),current);
-            shouldDownload=auto&&newer&&current>0&&prefs().getBoolean("automatic",true);
+            shouldDownload=auto&&newer&&((current>0&&prefs().getBoolean("automatic",true))||getIntent().getBooleanExtra("data_ready",false));
             final String message=newer?(current==0?"Ready to install ":"Update available: ")+game.getString("versionName"):"You’re up to date. Ready to play.";
             final boolean updateSelf=ReleasePolicy.newer(launcher.getLong("versionCode"),installed(getPackageName()));
-            runOnUiThread(()->{status.setText(message);install.setText(current==0?"Install game":"Install / update");self.setVisibility(updateSelf?View.VISIBLE:View.GONE);});
+            runOnUiThread(()->{status.setText(message);install.setText("Install / update VR app");self.setVisibility(updateSelf?View.VISIBLE:View.GONE);});
         }catch(Exception e){fail(e);}finally{busy=false;final boolean next=shouldDownload;runOnUiThread(()->{updateButtons();if(next)download(false);});}});
     }
     private void download(boolean launcher){

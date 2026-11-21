@@ -1,8 +1,8 @@
 {
   "repository": "DurusIudex/BO2-Quest-VR",
-  "version": "0.1.0",
-  "gameVersionCode": 100,
-  "installerVersionCode": 1,
+  "version": "0.2.0",
+  "gameVersionCode": 101,
+  "installerVersionCode": 2,
   "gamePackage": "com.bo2vr.questdev",
   "installerPackage": "com.bo2vr.installer",
   "certificateSha256": "0b8ea00d9dc8a9528aa5ed4c1e0d769b2c875c8c87b8050eb9e71e43b325f51a"
