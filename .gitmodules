@@ -1,0 +1,6 @@
+[submodule "vendor/openxr"]
+	path = vendor/openxr
+	url = https://github.com/KhronosGroup/OpenXR-SDK.git
+[submodule "vendor/dobby"]
+	path = vendor/dobby
+	url = https://github.com/jmpews/Dobby.git

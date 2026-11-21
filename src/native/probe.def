@@ -1,0 +1,12 @@
+LIBRARY XINPUT1_3
+EXPORTS
+    XInputGetDSoundAudioDeviceGuids=ProxyGetDSound @1
+    XInputGetState=ProxyGetState @2
+    XInputSetState=ProxySetState @3
+    XInputGetCapabilities=ProxyGetCapabilities @4
+    XInputEnable=ProxyEnable @5
+    XInputGetBatteryInformation=ProxyGetBattery @6
+    XInputGetKeystroke=ProxyGetKeystroke @7
+    XInputGetStateEx=ProxyGetStateEx @100 NONAME
+    BO2VRGetProbeStatus @101
+

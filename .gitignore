@@ -1,0 +1,17 @@
+build/
+reports/
+research/
+toolchain/
+downloads/
+__pycache__/
+*.pyc
+*.keystore
+*.jks
+*.pem
+*.key
+.env
+.env.*
+*.apk
+*.aab
+
+
